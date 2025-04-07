@@ -24,14 +24,16 @@ def insertNoBancoDados(connection, sql, dados):
         cursor = connection.cursor(prepared=True)
         cursor.execute(sql, dados)
         connection.commit()
-        id = cursor.lastrowid
+        #id = cursor.lastrowid
+        return True  #sucesso / OBS: QUANDO NÃO PRECISAR DE ID AUTO_INCREMENT COMO CHAVE PRIMÁRIA, USAR ESSE RETURN TRUE E RETURN FALSE
     except mysql.connector.Error as err:
         print(f"Erro ao inserir no banco de dados: {err}")
         connection.rollback()  # Reverte a transação em caso de erro
-        return None
+        #return None
+        return False  #Falhou / OBS: QUANDO NÃO PRECISAR DE ID AUTO_INCREMENT COMO CHAVE PRIMÁRIA, USAR ESSE RETURN TRUE E RETURN FALSE
     finally:
         cursor.close()
-    return id
+    #return id
 
 # Lista dados do banco de dados com tratamento de exceções
 def listarBancoDados(connection, sql, params=None):

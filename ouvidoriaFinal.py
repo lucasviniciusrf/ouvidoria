@@ -64,11 +64,10 @@ def adicionarManifestacao(conn):
         dados = [cpf, nome, tipo, reclamacao]
         inserirBanco = insertNoBancoDados(conn, consultaReclamacao, dados)
 
-        if not inserirBanco:
+        if inserirBanco:
             print(f'Perfeito, {nome.capitalize()}! Sua reclamação foi registrada com sucesso.')
-
         else:
-            print('Verifique se seu cpf já está cadastrado ou inválido.')
+            print('Verifique se seu CPF já está cadastrado ou inválido.')
 
     except Exception as e:
         print(f'\033[31mErro {e}: Ocorreu um problema ao registrar sua reclamação. Tente novamente!\033[m')
@@ -87,10 +86,10 @@ def atualizarInformacoes(conn):
         dados = [ manifestacao, '%' + qualCpf]
         atualizarBanco = atualizarBancoDados(conn, consultaAtualizar, dados)
 
-        if not atualizarBanco:
-            print('Cpf inválido!')
+        if atualizarBanco:
+            print('Atualização feita com sucesso!')
         else:
-            print('Atualização feita com sucesso! ')
+            print('CPF inválido!')
 
     except Exception as e:
         print(f'\033[31mErro,{e}: Ocorreu um problema ao registrar sua reclamação. Tente novamente!\033[m')
