@@ -19,21 +19,33 @@ def encerrarConexao(connection):
         connection.close()
 
 # Insere dados no banco de dados com prepared statements e tratamento de exceções
-def insertNoBancoDados(connection, sql, dados):
+# Para tabelas com id AUTO_INCREMENT (ex: id gerado automaticamente)
+def insertAutoIncrement(connection, sql, dados):
     try:
         cursor = connection.cursor(prepared=True)
         cursor.execute(sql, dados)
         connection.commit()
-        #id = cursor.lastrowid
-        return True  #sucesso / OBS: QUANDO NÃO PRECISAR DE ID AUTO_INCREMENT COMO CHAVE PRIMÁRIA, USAR ESSE RETURN TRUE E RETURN FALSE
+        id = cursor.lastrowid
     except mysql.connector.Error as err:
         print(f"Erro ao inserir no banco de dados: {err}")
         connection.rollback()  # Reverte a transação em caso de erro
-        #return None
-        return False  #Falhou / OBS: QUANDO NÃO PRECISAR DE ID AUTO_INCREMENT COMO CHAVE PRIMÁRIA, USAR ESSE RETURN TRUE E RETURN FALSE
+        return None
     finally:
         cursor.close()
-    #return id
+    return id
+# Para tabelas com chave personalizada (ex: cpf, email, etc.)
+def insertChaveUnica(connection, sql, dados):
+    try:
+        cursor = connection.cursor(prepared=True)
+        cursor.execute(sql, dados)
+        connection.commit()
+    except mysql.connector.Error as err:
+        print(f"Erro ao inserir no banco de dados: {err}")
+        connection.rollback()
+        return False
+    finally:
+        cursor.close()
+    return True
 
 # Lista dados do banco de dados com tratamento de exceções
 def listarBancoDados(connection, sql, params=None):
