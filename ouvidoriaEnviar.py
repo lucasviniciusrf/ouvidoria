@@ -22,7 +22,7 @@ while True:
     print()
 
     if not opcao:
-        print('\033[31mErro: Este campo pode estar vazio. Por favor, preencha todos os campos corretamente!\033[m')
+        print('\033[31mErro: Este campo pode estar vazio. Por favor, preencha corretamente!\033[m')
         continue
     
     elif opcao == '1':

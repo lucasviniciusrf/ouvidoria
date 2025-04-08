@@ -17,14 +17,19 @@ def listagemTipo(conn):
     print("=" * 15, "\033[34mPESQUISA POR TIPO\033[m", "=" * 15)
     try:
         print("[ 1 ] Reclamação [ 2 ] Sugestão [ 3 ] Elogio")
-        tipo = int(input("Digite o codigo do tipo da manifestação: "))
-        if tipo == 1:
+        tipo = input("Digite o codigo do tipo da manifestação: ")
+
+        if not tipo:
+            print('\033[31mErro: Este campo pode estar vazio. Por favor, preencha corretamente!\033[m')
+            return
+        
+        elif tipo == '1':
             print("=" * 15, "\033[34mRECLAMAÇÃO\033[m", "=" * 15)
 
-        elif tipo == 2:
+        elif tipo == '2':
             print("=" * 15, "\033[34mSUGESTÃO\033[m", "=" * 15)
 
-        elif tipo == 3:
+        elif tipo == '3':
             print("=" * 15, "\033[34mELOGIO\033[m", "=" * 15)
 
         else:
@@ -62,7 +67,7 @@ def adicionarManifestacao(conn):
 
         consultaReclamacao = 'INSERT INTO tabelaOuvidoria (cpf, nome, tipo, reclamacao) VALUES (%s, %s, %s, %s)'
         dados = [cpf, nome, tipo, reclamacao]
-        inserirBanco = insertNoBancoDados(conn, consultaReclamacao, dados)
+        inserirBanco = insertChaveUnica(conn, consultaReclamacao, dados)
 
         if inserirBanco:
             print(f'Perfeito, {nome.capitalize()}! Sua reclamação foi registrada com sucesso.')
@@ -79,7 +84,7 @@ def atualizarInformacoes(conn):
         qualCpf = input('Digite o cpf que a manifestação está relacionada: (Se preferir, pode digitar APENAS os dois últimos dígitos do cpf) ')
         manifestacao = input('Digite a nova manifestação: ')
         if not qualCpf or not manifestacao:
-            print('Verifique se os espaços foram devidamente preenchidos ou o valor válido!')
+            print('\033[31mVerifique se os espaços foram devidamente preenchidos ou o valor válido!\033[m')
             return
 
         consultaAtualizar = 'update tabelaOuvidoria set reclamacao = %s where cpf like %s'
