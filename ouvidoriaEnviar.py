@@ -18,31 +18,35 @@ while True:
         8) Sair do Sistema''')
     print()
     print('=' * 50)
-    opcao = int(input('Selecione a opção: '))
+    opcao = input('Selecione a opção: ')
     print()
 
-    if opcao == 1:
+    if not opcao:
+        print('\033[31mErro: Este campo pode estar vazio. Por favor, preencha todos os campos corretamente!\033[m')
+        continue
+    
+    elif opcao == '1':
         listagemManifestacoes(conn)
 
-    elif opcao == 2:
+    elif opcao == '2':
         listagemTipo(conn)
 
-    elif opcao == 3:
+    elif opcao == '3':
         adicionarManifestacao(conn)
 
-    elif opcao == 4:
+    elif opcao == '4':
         quantidadeManifestacoes(conn)
 
-    elif opcao == 5:
+    elif opcao == '5':
         pesquisarManifestacoes(conn)
 
-    elif opcao == 6:
+    elif opcao == '6':
         atualizarInformacoes(conn)
 
-    elif opcao == 7:
+    elif opcao == '7':
         excluirManifestacoes(conn)
 
-    elif opcao == 8:
+    elif opcao == '8':
         encerrar(conn)
         break
 
